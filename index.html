@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Your Store</title>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Icons&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Lexend', sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .top-bar {
+            width: 100%;
+            background-color: #4CAF50;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            order: 2;
+            margin-left: auto;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            overflow: hidden;
+        }
+        .logo img {
+            width: 100%;
+            height: auto;
+        }
+        .search-container {
+            order: -1;
+            flex: 1;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+        }
+        .search {
+            display: flex;
+            align-items: center;
+            padding: 14px;
+            border-radius: 28px;
+            background: #f6f6f6;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 600px;
+        }
+        .search-input {
+            font-size: 16px;
+            color: #333333;
+            outline: none;
+            border: none;
+            background: transparent;
+            flex: 1;
+            margin-left: 14px;
+            max-width: 300px;
+        }
+        .search-input::placeholder,
+        .material-icons {
+            color: rgba(0, 0, 0, 0.25);
+            font-size: 20px;
+        }
+        .nav-menu {
+            order: 1;
+            display: flex;
+            gap: 20px;
+        }
+        .nav-menu a {
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 16px;
+            padding: 10px;
+            transition: color 0.3s ease;
+            background-color: transparent;
+        }
+        .nav-menu a:hover {
+            color: #f0f0f0;
+        }
+
+        .create-store-box {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .create-store-box .icon {
+            font-size: 36px;
+            margin-right: 10px;
+        }
+        .create-store-box span {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .store-preview {
+            display: none;
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 600px;
+            transition: opacity 0.3s ease;
+        }
+        .store-preview.active {
+            display: block;
+        }
+        .store-preview img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+        .store-preview p {
+            margin: 5px 0;
+            font-size: 16px;
+        }
+        .store-preview .more-details {
+            display: none;
+        }
+        .store-preview .more-details.active {
+            display: block;
+        }
+
+        .create-store-form {
+            display: none;
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+        .create-store-form.active {
+            display: block;
+        }
+        .create-store-form input {
+            width: calc(100% - 20px);
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        .create-store-form button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: #ffffff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .create-store-form button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="top-bar">
+        <nav class="nav-menu">
+            <a href="#">Home</a>
+            <a href="#">About</a>
+            <a href="#">Services</a>
+            <a href="#">Contact</a>
+        </nav>
+        <div class="logo">
+            <img src="logo.png" alt="Logo">
+        </div>
+        <div class="search-container">
+            <div class="search">
+                <span class="material-icons">
+                    search
+                </span>
+                <input class="search-input" type="search" placeholder="Search">
+            </div>
+        </div>
+    </div>
+
+    <div class="create-store-box" onclick="toggleStorePreview()">
+        <span class="material-icons icon">
+            add_circle
+        </span>
+        <span>Promote Your Store</span>
+    </div>
+
+    <div class="store-preview" id="storePreview">
+        <h2>Store Preview</h2>
+        <p><strong>Store Name:</strong> <span id="previewStoreName"></span></p>
+        <p><strong>Founded By:</strong> <span id="previewFoundedBy"></span></p>
+        <button onclick="toggleMoreDetails()">Show More Details</button>
+        <div class="more-details" id="moreDetails">
+            <hr>
+            <h3>More Details</h3>
+            <img id="previewStoreImage" src="" alt="Store Image">
+            <p><strong>Founded Date:</strong> <span id="previewFoundedDate"></span></p>
+            <p><strong>Social Handles:</strong> <span id="previewSocialHandles"></span></p>
+        </div>
+    </div>
+
+    <div class="create-store-form" id="createStoreForm">
+        <h2>Create Your Store</h2>
+        <form onsubmit="return submitStoreForm()">
+            <input type="text" id="storeName" name="storeName" placeholder="Store Name" required>
+            <input type="text" id="foundedBy" name="foundedBy" placeholder="Founded By" required>
+            <input type="date" id="foundedDate" name="foundedDate" required>
+            <input type="url" id="socialHandles" name="socialHandles" placeholder="Social Handles">
+            <input type="file" id="storeImageInput" name="storeImage" accept="image/*">
+            <button type="submit">Create</button>
+        </form>
+    </div>
+
+    <script>
+        function toggleStorePreview() {
+            var storePreview = document.getElementById("storePreview");
+            storePreview.classList.toggle("active");
+        }
+
+        function toggleMoreDetails() {
+            var moreDetails = document.getElementById("moreDetails");
+            moreDetails.classList.toggle("active");
+        }
+
+        function showCreateStoreForm() {
+            var createStoreForm = document.getElementById("createStoreForm");
+            createStoreForm.classList.add("active");
+
+            var storePreview = document.getElementById("storePreview");
+            storePreview.classList.remove("active");
+        }
+
+        function submitStoreForm() {
+            var storeName = document.getElementById("storeName").value;
+            var foundedBy = document.getElementById("foundedBy").value;
+            var foundedDate = document.getElementById("foundedDate").value;
+            var socialHandles = document.getElementById("socialHandles").value;
+            var storeImage = document.getElementById("storeImageInput").files[0];
+
+            // Display created store information
+            document.getElementById("previewStoreName").innerText = storeName;
+            document.getElementById("previewFoundedBy").innerText = foundedBy;
+            document.getElementById("previewFoundedDate").innerText = foundedDate;
+            document.getElementById("previewSocialHandles").innerText = socialHandles;
+            document.getElementById("previewStoreImage").src = storeImage ? URL.createObjectURL(storeImage) : '';
+
+            // Show the store preview section
+            document.getElementById("storePreview").classList.add("active");
+
+            // Prevent form submission
+            return false;
+        }
+    </script>
+</body>
+</html>
